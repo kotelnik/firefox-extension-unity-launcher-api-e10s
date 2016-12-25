@@ -1,7 +1,7 @@
 {
     "description": "Add-on for Unity Launcher API integration regarding download progress and count.",
     "manifest_version": 2,
-    "name": "Unity Launcher API Addon",
+    "name": "Unity Launcher API Addon e10s",
     "version": "1.1.0",
 
     "icons": {
@@ -10,7 +10,7 @@
 
     "applications": {
         "gecko": {
-            "id": "firefox_extension_unity_launcher_api@kotelnik",
+            "id": "firefox_extension_unity_launcher_api_e10s@kotelnik",
             "strict_min_version": "1.1.0"
         }
     },

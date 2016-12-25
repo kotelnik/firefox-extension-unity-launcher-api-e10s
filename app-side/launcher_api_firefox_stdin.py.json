@@ -3,5 +3,5 @@
   "description": "Host for native LauncherAPI firefox calls.",
   "path": "/usr/lib/mozilla/native-messaging-hosts/launcher_api_firefox_stdin.py",
   "type": "stdio",
-  "allowed_extensions": [ "firefox_extension_unity_launcher_api@kotelnik" ]
+  "allowed_extensions": [ "firefox_extension_unity_launcher_api_e10s@kotelnik" ]
 }
