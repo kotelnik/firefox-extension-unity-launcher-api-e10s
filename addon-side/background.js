@@ -1,18 +1,21 @@
-// connect to native app
-var port = browser.runtime.connectNative("launcher_api_firefox_stdin.py");
-
+// globals
 var timeout = null;
+
+function sendMessage(msg) {
+    console.log('postMessage("' + msg + '")');
+    browser.runtime.sendNativeMessage('launcher_api_firefox_stdin.py', msg);
+}
 
 // get in_progress downloads
 function updateStatus() {
 
-    clearTimeout(timeout)
+    clearTimeout(timeout);
 
     browser.downloads.search({ state: 'in_progress' }).then((downloads) => {
 
         // get count and send to native app
         var count = downloads.length;
-        port.postMessage("count=" + count);
+        sendMessage("count=" + count);
 
         // no downloads? exit.
         if (count === 0) {
@@ -35,10 +38,10 @@ function updateStatus() {
         }
 
         // send progress to native app
-        port.postMessage("progress=" + progress);
+        sendMessage("progress=" + progress);
 
         // schedule next check on status
-        timeout = setTimeout(updateStatus, 1000);
+        timeout = setTimeout(updateStatus, 3000);
 
     }, (error) => {
 
@@ -49,7 +52,7 @@ function updateStatus() {
 
 // listen to download created and changed events
 browser.downloads.onCreated.addListener(updateStatus);
-browser.downloads.onChanged.addListener(updateStatus)
+browser.downloads.onChanged.addListener(updateStatus);
 
 // initial call
 updateStatus();
