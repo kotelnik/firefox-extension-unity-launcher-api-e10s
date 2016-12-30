@@ -25,4 +25,4 @@ $ web-ext run
 ```
 
 ### Install
-  - Arch Linux (AUR) package: firefox-extension-unity-launcher-api-e10s (as soon as the add-on is approved by Mozilla)
+  - Arch Linux (AUR) package: https://aur.archlinux.org/packages/firefox-extension-unity-launcher-api-e10s (WARNING: not yet reviewed and signed by Mozilla)
