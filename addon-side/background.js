@@ -3,7 +3,11 @@ var timeout = null;
 
 function sendMessage(msg) {
     console.log('postMessage("' + msg + '")');
-    browser.runtime.sendNativeMessage('launcher_api_firefox_stdin.py', msg);
+    browser.runtime.sendNativeMessage('launcher_api_firefox_stdin.py', msg).then((response) => {
+        console.log('postMessage response: ' + response);
+    }, (error) => {
+        console.log('postMessage error: ' + error);
+    });
 }
 
 // get in_progress downloads
@@ -30,8 +34,8 @@ function updateStatus() {
             if (download.totalBytes === -1) {
                 return;
             }
-            totalBytesSum = download.totalBytes;
-            bytesReceivedSum = download.bytesReceived;
+            totalBytesSum += download.totalBytes;
+            bytesReceivedSum += download.bytesReceived;
         });
         if (totalBytesSum > 0) {
             progress = bytesReceivedSum / totalBytesSum;
