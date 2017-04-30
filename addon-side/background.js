@@ -17,23 +17,16 @@ function updateStatus() {
 
     browser.downloads.search({ state: 'in_progress' }).then((downloads) => {
 
-        // get count and send to native app
-        var count = downloads.length;
-        sendMessage("count=" + count);
-
-        // no downloads? exit.
-        if (count === 0) {
-            return;
-        }
-
         // iterate over in_progress downloads and get overall progress
         var totalBytesSum = 0;
         var bytesReceivedSum = 0;
         var progress = 0.001; // default progress
+        var count = 0;
         downloads.forEach((download) => {
             if (download.totalBytes === -1) {
                 return;
             }
+            count++;
             totalBytesSum += download.totalBytes;
             bytesReceivedSum += download.bytesReceived;
         });
@@ -41,8 +34,16 @@ function updateStatus() {
             progress = bytesReceivedSum / totalBytesSum;
         }
 
+        // send count to native app
+        sendMessage("count=" + count);
+
         // send progress to native app
         sendMessage("progress=" + progress);
+
+        // no downloads? exit.
+        if (downloads.length === 0) {
+            return;
+        }
 
         // schedule next check on status
         timeout = setTimeout(updateStatus, 3000);
