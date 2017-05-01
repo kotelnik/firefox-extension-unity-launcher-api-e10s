@@ -46,7 +46,7 @@ function updateStatus() {
         }
 
         // schedule next check on status
-        timeout = setTimeout(updateStatus, 3000);
+        timeout = setTimeout(updateStatus, 1000);
 
     }, (error) => {
 
