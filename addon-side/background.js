@@ -37,13 +37,13 @@ function updateStatus() {
         // send count to native app
         sendMessage("count=" + count);
 
-        // send progress to native app
-        sendMessage("progress=" + progress);
-
         // no downloads? exit.
         if (downloads.length === 0) {
             return;
         }
+
+        // send progress to native app
+        sendMessage("progress=" + progress);
 
         // schedule next check on status
         timeout = setTimeout(updateStatus, 1000);
