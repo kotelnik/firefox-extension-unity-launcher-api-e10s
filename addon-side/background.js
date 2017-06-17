@@ -21,24 +21,23 @@ function updateStatus() {
         var totalBytesSum = 0;
         var bytesReceivedSum = 0;
         var progress = 0.001; // default progress
-        var count = 0;
         downloads.forEach((download) => {
             if (download.totalBytes === -1) {
                 return;
             }
-            count++;
             totalBytesSum += download.totalBytes;
             bytesReceivedSum += download.bytesReceived;
         });
         if (totalBytesSum > 0) {
             progress = bytesReceivedSum / totalBytesSum;
         }
+        var count = downloads.length;
 
         // send count to native app
         sendMessage("count=" + count);
 
         // no downloads? exit.
-        if (downloads.length === 0) {
+        if (count === 0) {
             return;
         }
 
