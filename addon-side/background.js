@@ -5,22 +5,16 @@ var port = null;
 function sendMessage(msg) {
     console.log('postMessage("' + msg + '")');
     if (port === null || port.error) {
-        console.log('connecting to app...')
+        console.log('connecting to app')
         port = browser.runtime.connectNative('launcher_api_firefox_stdin.py')
-        console.log('connected')
     }
     try {
         port.postMessage(msg)
     } catch (er) {
         console.log('Error posting message', er)
+        // reconnect on error
         port = browser.runtime.connectNative('launcher_api_firefox_stdin.py')
     }
-    
-//     browser.runtime.sendNativeMessage('launcher_api_firefox_stdin.py', msg).then((response) => {
-//         console.log('postMessage response: ' + response);
-//     }, (error) => {
-//         console.log('postMessage error: ' + error);
-//     });
 }
 
 // get in_progress downloads
