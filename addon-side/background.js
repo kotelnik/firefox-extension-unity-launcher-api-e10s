@@ -1,13 +1,26 @@
 // globals
 var timeout = null;
+var port = null; 
 
 function sendMessage(msg) {
     console.log('postMessage("' + msg + '")');
-    browser.runtime.sendNativeMessage('launcher_api_firefox_stdin.py', msg).then((response) => {
-        console.log('postMessage response: ' + response);
-    }, (error) => {
-        console.log('postMessage error: ' + error);
-    });
+    if (port === null || port.error) {
+        console.log('connecting to app...')
+        port = browser.runtime.connectNative('launcher_api_firefox_stdin.py')
+        console.log('connected')
+    }
+    try {
+        port.postMessage(msg)
+    } catch (er) {
+        console.log('Error posting message', er)
+        port = browser.runtime.connectNative('launcher_api_firefox_stdin.py')
+    }
+    
+//     browser.runtime.sendNativeMessage('launcher_api_firefox_stdin.py', msg).then((response) => {
+//         console.log('postMessage response: ' + response);
+//     }, (error) => {
+//         console.log('postMessage error: ' + error);
+//     });
 }
 
 // get in_progress downloads
@@ -34,15 +47,12 @@ function updateStatus() {
         var count = downloads.length;
 
         // send count to native app
-        sendMessage("count=" + count);
+        sendMessage('count=' + count + '|progress=' + progress);
 
         // no downloads? exit.
         if (count === 0) {
             return;
         }
-
-        // send progress to native app
-        sendMessage("progress=" + progress);
 
         // schedule next check on status
         timeout = setTimeout(updateStatus, 1000);
