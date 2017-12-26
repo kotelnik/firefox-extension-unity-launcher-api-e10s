@@ -109,7 +109,7 @@ def processMessage(receivedMessage):
             logger.debug("Progress has not changed.")
         else:
             previousProgress = progress
-            logger.debug('setting progress=' + progress)
+            logger.debug('setting progress=' + str(progress))
             #
             # set task manager entry's 'progress'
             #
@@ -122,6 +122,6 @@ def processMessage(receivedMessage):
 
 
 logger.debug('start listening for messages')
-    while True:
-        receivedMessage = readMessage()
-        processMessage(receivedMessage)
+while True:
+    receivedMessage = readMessage()
+    processMessage(receivedMessage)
