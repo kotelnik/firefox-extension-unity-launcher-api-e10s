@@ -24,7 +24,7 @@ previousProgress = 0.0
 try:
     import gi
     gi.require_version('Unity', '7.0')
-    from gi.repository import Unity, Gio, GObject, Dbusmenu
+    from gi.repository import Unity, GObject
     loop = GObject.MainLoop()
     launcher = Unity.LauncherEntry.get_for_desktop_id("firefox.desktop")
     launcher.set_property('count', 0)
@@ -109,6 +109,7 @@ def processMessage(receivedMessage):
             logger.debug("Progress has not changed.")
         else:
             previousProgress = progress
+            logger.debug('setting progress=' + progress)
             #
             # set task manager entry's 'progress'
             #
@@ -119,10 +120,8 @@ def processMessage(receivedMessage):
     except:
         logger.debug("Error parsing progress value.")
 
-def listenForMessages():
-    logger.debug('start listening for messages')
+
+logger.debug('start listening for messages')
     while True:
         receivedMessage = readMessage()
         processMessage(receivedMessage)
-
-listenForMessages()
